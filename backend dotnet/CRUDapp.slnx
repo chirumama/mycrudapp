@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CRUDapp/CRUDapp.csproj" />
+  <Project Path="mycrudapp/mycrudapp.csproj" />
+</Solution>

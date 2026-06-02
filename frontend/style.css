@@ -1,0 +1,184 @@
+body {
+  background: #f5f7fb;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  border: none;
+  border-radius: 16px;
+  transition: .3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.1);
+}
+
+.card-image-wrapper {
+  width: 160px;
+  min-width: 160px;
+  height: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.floating-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 24px;
+  z-index: 1000;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.modal-content {
+  border-radius: 16px;
+  border: none;
+}
+
+.badge {
+  width: fit-content;
+}
+
+.card .btn-dark {
+  background: #ffffff;
+  border: 1.5px solid #dee2e6;
+  color: #212529;
+}
+
+.card .btn-dark:hover {
+  background: #f0f0f0;
+  border-color: #adb5bd;
+  color: #000;
+}
+
+#confirmOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+#confirmOverlay.active {
+  display: flex;
+}
+
+#confirmBox {
+  background: #fff;
+  border-radius: 24px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.tick-circle {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.25rem;
+}
+
+.tick-circle-bg {
+  fill: none;
+  stroke: #e8f5e9;
+  stroke-width: 4;
+}
+
+.tick-circle-ring {
+  fill: none;
+  stroke: #2e7d32;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: drawRing 0.6s ease forwards 0.1s;
+}
+
+.tick-check {
+  fill: none;
+  stroke: #2e7d32;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: drawCheck 0.4s ease forwards 0.65s;
+}
+
+@keyframes drawRing {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+#confirmMessage {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1.75rem;
+}
+
+#confirmOkBtn {
+  background: #212529;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 0;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#confirmOkBtn:hover {
+  background: #000;
+}
+
+/* Form Validation Styling */
+.invalid-feedback {
+  display: none;
+  margin-top: -8px;
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  color: #dc3545;
+}
+
+.was-validated .form-control:invalid {
+  border-color: #dc3545;
+}
+
+.was-validated .form-select:invalid {
+  border-color: #dc3545;
+}
+
+.was-validated .form-control:invalid ~ .invalid-feedback,
+.was-validated .form-select:invalid ~ .invalid-feedback {
+  display: block;
+}
