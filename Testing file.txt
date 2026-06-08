@@ -1,0 +1,165 @@
+Open Linux with a username default
+
+clone the repo https://github.com/chirumama/mycrudapp
+
+install dotnet-runtime-8.0
+by using these command
+
+sudo apt-get-repository ppa:dotnet/backport -y
+sudo apt update
+sudo apt install -y dotnet-sdk-8.0
+
+install posgres and add username and password and pass preveilge access
+
+Create database itemdb
+Add table id,title,description,image_url,link
+
+update the same password&username in mycrudapp/backenddot/appsetting.json 
+
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=itemdb;Username=;Password="
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
+
+Run dotnet backend and add this data by using curl command
+
+curl -X POST http://localhost:5000/items  \
+-H "Content-Type:application/json"  \
+-d "{
+    "id": 1,
+    "title": "Design Systems Handbook",
+    "description": "Learn how to build scalable and consistent design systems.",
+    "tag": "Design",
+    "image_url": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800",
+    "link": "https://www.designbetter.co/design-systems-handbook"
+  }"
+
+
+Add this data one by one
+[
+  {
+    "id": 1,
+    "title": "Design Systems Handbook",
+    "description": "Learn how to build scalable and consistent design systems.",
+    "tag": "Design",
+    "image_url": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800",
+    "link": "https://www.designbetter.co/design-systems-handbook"
+  },
+  {
+    "id": 2,
+    "title": "Deep Work",
+    "description": "Strategies for focused success in a distracted world.",
+    "tag": "Productivity",
+    "image_url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800",
+    "link": "https://www.calnewport.com/books/deep-work/"
+  },
+  {
+    "id": 3,
+    "title": "Getting Things Done",
+    "description": "A productivity methodology for managing tasks effectively.",
+    "tag": "Productivity",
+    "image_url": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800",
+    "link": "https://gettingthingsdone.com/"
+  },
+  {
+    "id": 4,
+    "title": "The Pragmatic Programmer",
+    "description": "Timeless software engineering practices and principles.",
+    "tag": "Development",
+    "image_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
+    "link": "https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/"
+  },
+  {
+    "id": 5,
+    "title": "UX Design Fundamentals",
+    "description": "A beginner-friendly guide to user experience design.",
+    "tag": "Design",
+    "image_url": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+    "link": "https://www.nngroup.com/articles/definition-user-experience/"
+  },
+  {
+    "id": 6,
+    "title": "Java complete reference",
+    "description": "Java book",
+    "tag": "Development",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwMsDam1Q-LrgMr5EuPxTOcX4bS_CEhMFohw&s",
+    "link": "https://www.sietk.org/downloads/javabook.pdf"
+  },
+  {
+    "id": 7,
+    "title": "Time Management Mastery",
+    "description": "Learn practical techniques to improve personal productivity.",
+    "tag": "Productivity",
+    "image_url": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800",
+    "link": "https://www.mindtools.com/pages/main/newMN_HTE.htm"
+  },
+  {
+    "id": 8,
+    "title": "Linux the Bible",
+    "description": "Book of whole linux commands",
+    "tag": "Productivity",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTALrrYOjdqvqznw_VZCKN92Did0CUArfeGQw&s",
+    "link": "https://udaygade.wordpress.com/wp-content/uploads/2015/04/linux-bible-by-christopher-negus.pdf"
+  },
+  {
+    "id": 9,
+    "title": "Let us Python",
+    "description": "Book for C programming",
+    "tag": "Development",
+    "image_url": "https://m.media-amazon.com/images/I/716v+6vDHfL.jpg",
+    "link": "https://pdvpmtasgaon.edu.in/uploads/dptcomputer/Let%20us%20c%20-%20yashwantkanetkar.pdf"
+  }
+]
+
+GET 
+curl -X GET http://localhost:5000/items
+
+install nginx
+
+allow full permission to nginx
+
+sudo chmod 755 to /home/username
+sudo chmod -R 755 /home/username/mycrudapp
+
+change made on file 
+/etc/nginx/sites-available/default
+
+server {
+    listen 80;
+    server_name localhost;
+
+    root /home/username/mycrudapp/frontend;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # 2. Reverse proxy to your .NET backend API
+    location /api/ {
+        proxy_pass http://localhost:5000;         proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection keep-alive;
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+
+save this and then restart the ngnix
+
+start dotnet username/mycrudapp/backenddot/CRUDapp.dll --urls=http://localhost:5000
+
+show IP to redirect to browser

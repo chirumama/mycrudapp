@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5242/items";
+const API_URL = "/api/items";
 
 const cardContainer = document.getElementById("cardContainer");
 const tagFilter = document.getElementById("tagFilter");

@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: chirumama/crudapp:postgres-1.7
+    container_name: crud-postgres
+    environment:
+      POSTGRES_DB: itemdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin@123
+    ports:
+      - "5432:5432"
+
+  backend:
+    image: chirumama/crudapp:backend-1.4
+    container_name: dotnet-backend
+    depends_on:
+      - postgres
+    ports:
+      - "5000:5000"
+
+  frontend:
+    image: chirumama/crudapp:frontend-1.1
+    container_name: crud-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
